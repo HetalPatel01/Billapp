@@ -16,7 +16,7 @@
             android:id="@+id/llLable"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_25sdp"
-            android:background="@color/grayBg"
+            android:background="@color/yellow"
             android:gravity="center_vertical"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -31,7 +31,7 @@
                 android:gravity="center"
                 android:text="SR"
                 android:textAlignment="center"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -44,7 +44,7 @@
                 android:gravity="center"
                 android:text="Details"
                 android:textAlignment="center"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -57,7 +57,7 @@
                 android:gravity="center"
                 android:text="QTY"
                 android:textAlignment="center"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -70,7 +70,7 @@
                 android:gravity="center"
                 android:text="RATE"
                 android:textAlignment="center"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -84,7 +84,7 @@
                 android:gravity="center"
                 android:text="TOTAL"
                 android:textAlignment="center"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -97,7 +97,6 @@
             android:id="@+id/rvBillItems"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/_8sdp"
             android:background="@color/white"
             android:clipToPadding="true"
             android:orientation="vertical"
@@ -111,7 +110,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/llQtyTotal"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_height="@dimen/_35sdp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/edtQuantity"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -123,7 +122,9 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginLeft="@dimen/_50sdp"
+                android:textSize="20sp"
                 android:layout_width="wrap_content"
+                android:textColor="@color/red"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvFQty"/>
             <TextView
@@ -133,6 +134,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginRight="@dimen/_50sdp"
                 android:layout_width="wrap_content"
+                android:textColor="@color/red"
+                android:textSize="20sp"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvFTotal"/>
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -38,11 +38,12 @@ class BillsAdapter(
 
         holder.binding.tvNumber.text = (position + 1).toString()
         holder.binding.tvQty.text = currentItem.quantity.toString()
-        holder.binding.tvRate.text = currentItem.rate.toString()
         val df = DecimalFormat("#.##")
         val formattedNumber = df.format(currentItem.total)
         holder.binding.tvTotal.text =formattedNumber
 
+        val formattedRate = df.format(currentItem.rate)
+        holder.binding.tvRate.text = formattedRate
       /*  holder.binding.tvDetails.setOnClickListener {
             holder.binding.tvDetails.visibility = android.view.View.GONE
             holder.binding.edtDetails.visibility = android.view.View.VISIBLE

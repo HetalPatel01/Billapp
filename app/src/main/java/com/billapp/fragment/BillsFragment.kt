@@ -14,6 +14,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatButton
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.billapp.R
 import com.billapp.adapter.BillsAdapter
@@ -43,9 +44,9 @@ class BillsFragment : Fragment(), DetailListener {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_bills, container, false)
         dbHelper = DatabaseHelper(requireContext())
-        /*hideKeyboard(requireActivity())
-        binding.edtQuantity.requestFocus()*/
-        hideKeyboardAndFocusOnEditText(requireContext(), binding.edtQuantity)
+        binding.edtQuantity.requestFocus()
+        hideKeyboard(requireActivity())
+
         init()
         // Hide the keyboard
 
@@ -184,22 +185,35 @@ class BillsFragment : Fragment(), DetailListener {
     private fun saveAndShowBillsList() {
         calculateMultiplication()
     }
-
     private fun showBillsList() {
         val billsList = dbHelper.getAllBills()
+        var totalQuantity = 0
+        var totalAmount = 0.0
+
         for (bill in billsList) {
             val quantity = bill.quantity
             val total = bill.total
-            val df = DecimalFormat("#.##")
-            val formattedNumber = df.format(total)
-            binding.tvFTotal.text = formattedNumber
-            binding.tvFQty.text = quantity.toString()
 
+            totalQuantity += quantity.toInt()
+            totalAmount += total
         }
+
+        if (billsList.isNotEmpty()) {
+            val df = DecimalFormat("#.##")
+            val formattedTotalAmount = df.format(totalAmount)
+
+            binding.tvFTotal.text = formattedTotalAmount
+            binding.tvFQty.text = totalQuantity.toString()
+        } else {
+            binding.tvFTotal.text = ""
+            binding.tvFQty.text = ""
+        }
+
         val adapter = BillsAdapter(requireContext(), requireActivity(), billsList, this)
         binding.rvBillItems.layoutManager = LinearLayoutManager(requireContext())
         binding.rvBillItems.adapter = adapter
     }
+
 
     override fun onDetailsClick(billId: Int, details: String) {
         dbHelper.updateBillDetails(billId, details)
@@ -235,26 +249,13 @@ class BillsFragment : Fragment(), DetailListener {
         )
     }
 
-    fun hideKeyboard(activity: Activity) {
+    fun hideKeyboard(activity: FragmentActivity) {
         val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         var view = activity.currentFocus
         if (view == null) {
             view = View(activity)
         }
         imm.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-    fun hideKeyboardAndFocusOnEditText(context: Context, editText: EditText) {
-        // Get the InputMethodManager
-        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-
-        // Hide the keyboard
-        val currentFocusedView = (context as? Activity)?.currentFocus
-        currentFocusedView?.let { view ->
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
-        }
-
-        editText.setCursorVisible(true)
-        editText.requestFocus()
     }
 
     private fun clearFocusAndHideKeyboard() {
