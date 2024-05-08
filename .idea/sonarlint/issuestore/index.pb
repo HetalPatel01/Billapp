@@ -1,0 +1,27 @@
+
+P
+ app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
+@
+build.gradle.kts,d\b\dbcff70658daf80b53ce624f6adcaa529df5ed8d
+D
+app/build.gradle.kts,d\2\d2a4383452aad84a18429a5844d31330a012a9e6
+F
+app/proguard-rules.pro,9\e\9e08934d811afe28fbc77aaa3c0d747b94348db9
+A
+gradle.properties,2\a\2afbb999f001938c88fa43fc2ef52abf0f8213e4
+X
+(gradle/wrapper/gradle-wrapper.properties,f\b\fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
+I
+gradle/libs.versions.toml,d\7\d7595319a0658be6f1ed500ad590d42e4b28bc4f
+f
+6app/src/main/java/com/billapp/activity/HomeActivity.kt,a\2\a27be566ea144bd89dd4d0790f40e034d1361bfe
+g
+7app/src/main/java/com/billapp/fragment/BillsFragment.kt,0\1\010afd669f2bc84edbb3723b5828c9d1656d4b64
+f
+6app/src/main/java/com/billapp/fragment/HomeFragment.kt,4\7\47e2cffa99953be5558a59369c0f0ba83819de12
+e
+5app/src/main/java/com/billapp/adapter/BillsAdapter.kt,3\8\38da5b5e402468a495d2f9567ac36e53c052bee3
+h
+8app/src/main/java/com/billapp/database/DatabaseHelper.kt,c\b\cb053445ca10fe759bafa0196de6d34e35e8d1f9
+[
++app/src/main/java/com/billapp/model/Bill.kt,7\1\71bac0df3ae8d61dfcd3d9816a4cf8f0d3d45fdc

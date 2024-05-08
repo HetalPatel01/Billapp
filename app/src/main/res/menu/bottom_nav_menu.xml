@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/quickBill"
+        android:icon="@drawable/ic_loan"
+        android:title="Quick Bill" />
+    <item
+        android:id="@+id/bills"
+        android:icon="@drawable/ic_bill"
+        android:title="Bills" />
+    <item
+        android:id="@+id/items"
+        android:icon="@drawable/ic_item"
+        android:title="Items" />
+    <item
+        android:id="@+id/parties"
+        android:icon="@drawable/ic_parties"
+        android:title="Parties" />
+    <item
+        android:id="@+id/more"
+        android:icon="@drawable/ic_morre"
+        android:title="More" />
+
+</menu>
