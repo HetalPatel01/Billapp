@@ -1,10 +1,7 @@
 
-ƒkotlin:S1172ê"8Use "_" instead of this unused lambda parameter "which".(¦ßÛ°ýÿÿÿÿ8ºÿá½õ1J$f03f1916-b881-4d21-9ffd-b88e0bea8dbd
-ƒkotlin:S1172î"8Use "_" instead of this unused lambda parameter "which".(¡ö‘Ïÿÿÿÿÿ8ºÿá½õ1J$e1129627-f443-4dcb-92b0-36fbf7fa6ed3
-‚kotlin:S1172c"8Use "_" instead of this unused lambda parameter "which".(¦ßÛ°ýÿÿÿÿ8ß‰æÄõ1J$f48bbd78-bfad-422b-b166-42dccb4930a2
-‚kotlin:S1172k"8Use "_" instead of this unused lambda parameter "which".(¡ö‘Ïÿÿÿÿÿ8à‰æÄõ1J$b7df5f20-9d08-4b5b-b274-f3bd00836ea5
-ckotlin:S125Q"Remove this commented out code.(¦±®ñ8Öþà½õ1J$bdee79cb-fc8d-4504-b05c-e5e2cd7e05a7
-hkotlin:S125V"Remove this commented out code.(××ç®þÿÿÿÿ8Öþà½õ1J$df80715e-22a6-413c-b450-e4dbe95caa37
-„kotlin:S1144¹"9Remove this unused private "saveAndShowBillsList" method.(©Âœòüÿÿÿÿ8Ûþà½õ1J$885e9ea9-2f09-4dfe-811f-4254da1bc1dd
-^kotlin:S1128"Remove this unused import.(”±ÊK8ø±œÄõ1J$a42f0cc8-823a-4d9b-8410-f3e3ed50d5ff
-œkotlin:S37768"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(†þ Ôüÿÿÿÿ8êþà½õ1J$50486a60-cff4-4803-bbd0-d2f054ad1577
+ƒkotlin:S1172ð"8Use "_" instead of this unused lambda parameter "which".(¦ßÛ°ýÿÿÿÿ8Ãƒ£åõ1J$acf427cb-974f-41dc-a911-2533fe64641e
+ƒkotlin:S1172ô"8Use "_" instead of this unused lambda parameter "which".(¡ö‘Ïÿÿÿÿÿ8Ãƒ£åõ1J$48fe1a23-fa61-4d68-a162-1c2b0fb2bfe0
+‚kotlin:S1172^"8Use "_" instead of this unused lambda parameter "which".(¦ßÛ°ýÿÿÿÿ8í¶€æõ1J$47f3f100-2134-4c80-a82a-f2147f8b5791
+‚kotlin:S1172f"8Use "_" instead of this unused lambda parameter "which".(¡ö‘Ïÿÿÿÿÿ8í¶€æõ1J$63129c95-b875-464d-98e6-8af1085badad
+^kotlin:S1128"Remove this unused import.(”±ÊK8Öƒ£åõ1J$12bd6360-50e6-49f6-b870-59770adc8f46
+œkotlin:S3776?"RRefactor this method to reduce its Cognitive Complexity from 20 to the 15 allowed.(†þ Ôüÿÿÿÿ8Øƒ£åõ1J$e927bde4-dc8f-4c48-bf3e-de40c465c5ff

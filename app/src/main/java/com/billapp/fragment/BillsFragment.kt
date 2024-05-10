@@ -3,6 +3,7 @@ package com.billapp.fragment
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.billapp.R
+import com.billapp.activity.QuickBillPrinterActivity
 import com.billapp.adapter.BillsAdapter
 import com.billapp.database.DatabaseHelper
 import com.billapp.databinding.FragmentBillsBinding
@@ -30,7 +32,6 @@ class BillsFragment : Fragment(), DetailListener {
     private lateinit var dbHelper: DatabaseHelper
     private var quantityValue = ""
     private var rateValue = ""
-    private var clearButtonClickCount = 0
     private var isFirstClick = true
 
     var quantity: Double = 0.0
@@ -48,14 +49,19 @@ class BillsFragment : Fragment(), DetailListener {
         hideKeyboard(requireActivity())
 
         init()
-        // Hide the keyboard
 
         return binding.root
     }
 
-    private fun init() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.edtRate.setShowSoftInputOnFocus(false)
         binding.edtQuantity.setShowSoftInputOnFocus(false)
+        init()
+    }
+
+    private fun init() {
+
         binding.edtQuantity.setSelection(binding.edtQuantity.text!!.length)
         binding.edtRate.setSelection(binding.edtRate.text!!.length)
 
@@ -78,18 +84,7 @@ class BillsFragment : Fragment(), DetailListener {
             }
         }
 
-        /* binding.btnSave.setOnClickListener {
-             saveAndShowBillsList()
-         }*/
-
         binding.btnClear.setOnClickListener {
-            /*   clearButtonClickCount++
-
-               if (clearButtonClickCount in 4..5) {
-
-
-               }*/
-
             if (binding.edtQuantity.text!!.isEmpty() && binding.edtRate.text!!.isEmpty()) {
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setTitle(R.string.app_name)
@@ -142,6 +137,19 @@ class BillsFragment : Fragment(), DetailListener {
             }
         }
 
+        binding.ivPrint.setOnClickListener() {
+            val billsList = dbHelper.getAllBills()
+            if (billsList.isNotEmpty()) {
+                val intent = Intent(requireContext(), QuickBillPrinterActivity::class.java)
+                intent.putExtra("billsList", ArrayList(billsList)) // Pass billsList as extra data
+                startActivity(intent)
+            } else {
+                Toast.makeText(requireContext(), "Please create a bill.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
+
         showBillsList()
     }
 
@@ -156,6 +164,7 @@ class BillsFragment : Fragment(), DetailListener {
             dbHelper.addBill(bill)
             showBillsList()
             clearFields() // Clear fields after calculation
+            binding.edtQuantity.requestFocus()
         } else {
             Toast.makeText(
                 requireContext(),
@@ -182,9 +191,6 @@ class BillsFragment : Fragment(), DetailListener {
         isFirstClick = true // Reset isFirstClick flag
     }
 
-    private fun saveAndShowBillsList() {
-        calculateMultiplication()
-    }
     private fun showBillsList() {
         val billsList = dbHelper.getAllBills()
         var totalQuantity = 0
@@ -256,16 +262,5 @@ class BillsFragment : Fragment(), DetailListener {
             view = View(activity)
         }
         imm.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
-    private fun clearFocusAndHideKeyboard() {
-        binding.edtQuantity.clearFocus()
-        binding.edtRate.clearFocus()
-        hideKeyboard(requireActivity())
-    }
-
-    override fun onResume() {
-        super.onResume()
-        clearFocusAndHideKeyboard()
     }
 }

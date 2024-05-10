@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "BilllApp"
 include(":app")
+include(":escposprinter")
