@@ -28,6 +28,7 @@ import com.billapp.activity.async.AsyncEscPosPrint;
 import com.billapp.activity.async.AsyncEscPosPrinter;
 import com.billapp.activity.async.AsyncTcpEscPosPrint;
 import com.billapp.activity.async.AsyncUsbEscPosPrint;
+import com.billapp.model.Bill;
 import com.dantsu.escposprinter.connection.DeviceConnection;
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothConnection;
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections;
@@ -38,10 +39,13 @@ import com.dantsu.escposprinter.textparser.PrinterTextParserImg;
 
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class PrintActivity extends AppCompatActivity {
 
+    ArrayList<Bill> billsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +57,19 @@ public class PrintActivity extends AppCompatActivity {
         button.setOnClickListener(view -> printBluetooth());
         button = (Button) this.findViewById(R.id.button_usb);
         button.setOnClickListener(view -> printUsb());
-        button = (Button) this.findViewById(R.id.button_tcp);
-        button.setOnClickListener(view -> printTcp());
+        /*button = (Button) this.findViewById(R.id.button_tcp);
+        button.setOnClickListener(view -> printTcp());*/
+        // Assuming you are inside an Activity class
+        Intent receivedIntent = getIntent(); // Retrieve the Intent used to start this activity
+        if (receivedIntent != null) {
+            billsList = (ArrayList<Bill>) receivedIntent.getSerializableExtra("billsList");
+            System.out.println("billlist::>"+ billsList);
+        } else {
+            // Handle case where receivedIntent is null
+            Log.e("Intent Error", "No intent received");
+        }
+
+
 
     }
 
@@ -228,7 +243,7 @@ public class PrintActivity extends AppCompatActivity {
     =========================================TCP PART===============================================
     ==============================================================================================*/
 
-    public void printTcp() {
+    /*public void printTcp() {
         final EditText ipAddress = (EditText) this.findViewById(R.id.edittext_tcp_ip);
         final EditText portAddress = (EditText) this.findViewById(R.id.edittext_tcp_port);
 
@@ -262,7 +277,7 @@ public class PrintActivity extends AppCompatActivity {
                 .show();
             e.printStackTrace();
         }
-    }
+    }*/
 
     /*==============================================================================================
     ===================================ESC/POS PRINTER PART=========================================
@@ -275,35 +290,42 @@ public class PrintActivity extends AppCompatActivity {
     public AsyncEscPosPrinter getAsyncEscPosPrinter(DeviceConnection printerConnection) {
         SimpleDateFormat format = new SimpleDateFormat("'on' yyyy-MM-dd 'at' HH:mm:ss");
         AsyncEscPosPrinter printer = new AsyncEscPosPrinter(printerConnection, 203, 48f, 32);
-        return printer.addTextToPrint(
-                        "[L]\n" +
-                        "[C]<u><font size='big'>ORDER N°045</font></u>\n" +
-                        "[L]\n" +
-                        "[C]<u type='double'>" + format.format(new Date()) + "</u>\n" +
-                        "[C]\n" +
-                        "[C]================================\n" +
-                        "[L]\n" +
-                        "[L]<b>BEAUTIFUL SHIRT</b>[R]9.99€\n" +
-                        "[L]  + Size : S\n" +
-                        "[L]\n" +
-                        "[L]<b>AWESOME HAT</b>[R]24.99€\n" +
-                        "[L]  + Size : 57/58\n" +
-                        "[L]\n" +
-                        "[C]--------------------------------\n" +
-                        "[R]TOTAL PRICE :[R]34.98€\n" +
-                        "[R]TAX :[R]4.23€\n" +
-                        "[L]\n" +
-                        "[C]================================\n" +
-                        "[L]\n" +
-                        "[L]<u><font color='bg-black' size='tall'>Customer :</font></u>\n" +
-                        "[L]Raymond DUPONT\n" +
-                        "[L]5 rue des girafes\n" +
-                        "[L]31547 PERPETES\n" +
-                        "[L]Tel : +33801201456\n" +
-                        "\n" +
-                        "[C]<barcode type='ean13' height='10'>831254784551</barcode>\n" +
-                        "[L]\n" +
-                        "[C]<qrcode size='20'>https://dantsu.com/</qrcode>\n"
-        );
+
+        StringBuilder billText = new StringBuilder();
+        billText.append("[C]<img>").append(
+                        PrinterTextParserImg.bitmapToHexadecimalString(
+                                printer,
+                                getResources().getDrawableForDensity(
+                                        android.R.drawable.ic_dialog_info,
+                                        DisplayMetrics.DENSITY_MEDIUM
+                                )
+                        )
+                ).append("</img>")
+                .append("[L]")
+                .append("[C]<u><font size='big'>ORDER DETAILS</font></u>")
+                .append("[L]");
+
+        // Add each bill item to the text
+        for (int index = 0; index < billsList.size(); index++) {
+            Bill bill = billsList.get(index);
+            billText.append("[L]")
+                    .append("[L]<b>").append(bill.getDetails()).append("</b>[R]").append(bill.getTotal()).append("€")
+                    .append("[L]  + Quantity : ").append(bill.getQuantity())
+                    .append("[L]  + Rate : ").append(bill.getRate());
+        }
+
+        double totalPrice = 0;
+        // Calculate total price and tax
+        for (Bill bill : billsList) {
+            totalPrice += bill.getTotal();
+        }
+        double tax = totalPrice * 0.15; // Assuming tax rate is 15%, adjust as needed
+        billText.append("[C]================================")
+                .append("[R]TOTAL PRICE :[R]").append(String.format("%.2f", totalPrice)).append("€")
+                .append("[R]TAX :[R]").append(String.format("%.2f", tax)).append("€")
+                .append("[L]")
+                .append("[C]================================");
+
+        return printer.addTextToPrint(billText.toString());
     }
 }
