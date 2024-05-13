@@ -286,32 +286,27 @@ public class PrintActivity extends AppCompatActivity {
     /**
      * Asynchronous printing
      */
-    @SuppressLint("SimpleDateFormat")
     public AsyncEscPosPrinter getAsyncEscPosPrinter(DeviceConnection printerConnection) {
         SimpleDateFormat format = new SimpleDateFormat("'on' yyyy-MM-dd 'at' HH:mm:ss");
         AsyncEscPosPrinter printer = new AsyncEscPosPrinter(printerConnection, 203, 48f, 32);
 
         StringBuilder billText = new StringBuilder();
-        billText.append("[C]<img>").append(
-                        PrinterTextParserImg.bitmapToHexadecimalString(
-                                printer,
-                                getResources().getDrawableForDensity(
-                                        android.R.drawable.ic_dialog_info,
-                                        DisplayMetrics.DENSITY_MEDIUM
-                                )
-                        )
-                ).append("</img>")
-                .append("[L]")
-                .append("[C]<u><font size='big'>ORDER DETAILS</font></u>")
+        billText.append("[L]")
+                .append("[C]<u><font size='small'>ORDER DETAILS</font></u> \n")
                 .append("[L]");
+
+        // Table headers
+        billText.append("[R]<b>Sr</b> [L] <b>Details</b>  [L] <b>Qty</b>  [L] <b>Rate</b> [L]<b>Total</b>[L]\n");
 
         // Add each bill item to the text
         for (int index = 0; index < billsList.size(); index++) {
             Bill bill = billsList.get(index);
-            billText.append("[L]")
-                    .append("[L]<b>").append(bill.getDetails()).append("</b>[R]").append(bill.getTotal()).append("€")
-                    .append("[L]  + Quantity : ").append(bill.getQuantity())
-                    .append("[L]  + Rate : ").append(bill.getRate());
+            billText.append("\n[R]").append(index + 1).append(" [L]")
+                    .append(bill.getDetails()).append("   [L]")
+                    .append(bill.getQuantity()).append("  [L] ")
+                    .append(bill.getRate()).append("  [L] ")
+                    .append(bill.getTotal()).append(" [L]")
+                    .append("\n");
         }
 
         double totalPrice = 0;
@@ -320,12 +315,12 @@ public class PrintActivity extends AppCompatActivity {
             totalPrice += bill.getTotal();
         }
         double tax = totalPrice * 0.15; // Assuming tax rate is 15%, adjust as needed
-        billText.append("[C]================================")
-                .append("[R]TOTAL PRICE :[R]").append(String.format("%.2f", totalPrice)).append("€")
-                .append("[R]TAX :[R]").append(String.format("%.2f", tax)).append("€")
+        billText.append("\n[C]====================")
+                .append("\n[R]TOTAL PRICE :[L]").append(String.format("%.2f", totalPrice)).append(" ")
                 .append("[L]")
-                .append("[C]================================");
+                .append("[C]\n=====================");
 
         return printer.addTextToPrint(billText.toString());
     }
+
 }
