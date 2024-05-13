@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.billapp.R
+import com.billapp.activity.PrintActivity
 import com.billapp.activity.QuickBillPrinterActivity
 import com.billapp.adapter.BillsAdapter
 import com.billapp.database.DatabaseHelper
@@ -140,7 +141,7 @@ class BillsFragment : Fragment(), DetailListener {
         binding.ivPrint.setOnClickListener() {
             val billsList = dbHelper.getAllBills()
             if (billsList.isNotEmpty()) {
-                val intent = Intent(requireContext(), QuickBillPrinterActivity::class.java)
+                val intent = Intent(requireContext(), PrintActivity::class.java)
                 intent.putExtra("billsList", ArrayList(billsList)) // Pass billsList as extra data
                 startActivity(intent)
             } else {

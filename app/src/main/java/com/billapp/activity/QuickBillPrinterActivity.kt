@@ -17,9 +17,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.billapp.R
-import com.billapp.async.AsyncBluetoothEscPosPrint
-import com.billapp.async.AsyncEscPosPrint
-import com.billapp.async.AsyncEscPosPrinter
+import com.billapp.activity.async.AsyncBluetoothEscPosPrint
+import com.billapp.activity.async.AsyncEscPosPrint
+import com.billapp.activity.async.AsyncEscPosPrinter
 import com.billapp.databinding.ActivityQuickBillPrinterBinding
 import com.billapp.model.Bill
 import com.dantsu.escposprinter.connection.DeviceConnection
@@ -46,6 +46,7 @@ class QuickBillPrinterActivity : AppCompatActivity() {
     }
 
     private fun initView() {
+
         val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         val isBluetoothEnabled = bluetoothAdapter?.isEnabled ?: false
         binding.sw.isChecked = isBluetoothEnabled
@@ -243,7 +244,7 @@ class QuickBillPrinterActivity : AppCompatActivity() {
                             )
                         }
                     }
-                ).execute(arrayOf(getAsyncEscPosPrinter(selectedDevice)))
+                ).execute(*arrayOf(getAsyncEscPosPrinter(selectedDevice)))
             }
         })
     }
