@@ -91,4 +91,20 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.delete(TABLE_NAME, null, null)
         db.close()
     }
+    fun deleteBill(billId: Int) {
+        val db = this.writableDatabase
+        db.delete(TABLE_NAME, "$COLUMN_ID=?", arrayOf(billId.toString()))
+        db.close()
+    }
+    fun updateBillDetails(id: Int, detail: String, quantity: Double, rate: Double, total:Double) {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(COLUMN_DETAILS, detail)
+            put(COLUMN_QUANTITY, quantity)
+            put(COLUMN_RATE, rate)
+            put(COLUMN_TOTAL, total)
+        }
+        db.update(TABLE_NAME, values, "$COLUMN_ID=?", arrayOf(id.toString()))
+        db.close()
+    }
 }

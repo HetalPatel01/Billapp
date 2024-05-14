@@ -14,13 +14,17 @@ import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.billapp.R;
 import com.billapp.activity.async.AsyncBluetoothEscPosPrint;
@@ -28,6 +32,7 @@ import com.billapp.activity.async.AsyncEscPosPrint;
 import com.billapp.activity.async.AsyncEscPosPrinter;
 import com.billapp.activity.async.AsyncTcpEscPosPrint;
 import com.billapp.activity.async.AsyncUsbEscPosPrint;
+import com.billapp.adapter.BluetoothDeviceAdapter;
 import com.billapp.model.Bill;
 import com.dantsu.escposprinter.connection.DeviceConnection;
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothConnection;
@@ -40,12 +45,15 @@ import com.dantsu.escposprinter.textparser.PrinterTextParserImg;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 public class PrintActivity extends AppCompatActivity {
 
     ArrayList<Bill> billsList = new ArrayList<>();
+    private BluetoothDeviceAdapter adapter;
+    private  RecyclerView rvBluetoothList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,16 +67,21 @@ public class PrintActivity extends AppCompatActivity {
         button.setOnClickListener(view -> printUsb());
         /*button = (Button) this.findViewById(R.id.button_tcp);
         button.setOnClickListener(view -> printTcp());*/
-        // Assuming you are inside an Activity class
-        Intent receivedIntent = getIntent(); // Retrieve the Intent used to start this activity
+        ImageView ivBack = (ImageView) this.findViewById(R.id.ivBack);
+        rvBluetoothList = (RecyclerView) this.findViewById(R.id.rvBluetoothList);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        Intent receivedIntent = getIntent();
         if (receivedIntent != null) {
             billsList = (ArrayList<Bill>) receivedIntent.getSerializableExtra("billsList");
-            System.out.println("billlist::>"+ billsList);
         } else {
             // Handle case where receivedIntent is null
             Log.e("Intent Error", "No intent received");
         }
-
 
 
     }
@@ -121,7 +134,7 @@ public class PrintActivity extends AppCompatActivity {
 
     private BluetoothConnection selectedDevice;
 
-    public void browseBluetoothDevice() {
+    /*public void browseBluetoothDevice() {
         this.checkBluetoothPermissions(() -> {
             final BluetoothConnection[] bluetoothDevicesList = (new BluetoothPrintersConnections()).getList();
 
@@ -139,17 +152,17 @@ public class PrintActivity extends AppCompatActivity {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(PrintActivity.this);
                 alertDialog.setTitle("Bluetooth printer selection");
                 alertDialog.setItems(
-                    items,
-                    (dialogInterface, i1) -> {
-                        int index = i1 - 1;
-                        if (index == -1) {
-                            selectedDevice = null;
-                        } else {
-                            selectedDevice = bluetoothDevicesList[index];
+                        items,
+                        (dialogInterface, i1) -> {
+                            int index = i1 - 1;
+                            if (index == -1) {
+                                selectedDevice = null;
+                            } else {
+                                selectedDevice = bluetoothDevicesList[index];
+                            }
+                            Button button = (Button) findViewById(R.id.button_bluetooth_browse);
+                            button.setText(items[i1]);
                         }
-                        Button button = (Button) findViewById(R.id.button_bluetooth_browse);
-                        button.setText(items[i1]);
-                    }
                 );
 
                 AlertDialog alert = alertDialog.create();
@@ -158,25 +171,54 @@ public class PrintActivity extends AppCompatActivity {
             }
         });
 
+    }*/
+    public void browseBluetoothDevice() {
+        this.checkBluetoothPermissions(() -> {
+            final BluetoothConnection[] bluetoothDevicesList = (new BluetoothPrintersConnections()).getList();
+
+            if (bluetoothDevicesList != null) {
+                // Initialize RecyclerView
+                RecyclerView recyclerView = findViewById(R.id.rvBluetoothList);
+                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+                // Convert array to a List if needed
+                List<BluetoothConnection> deviceList = Arrays.asList(bluetoothDevicesList);
+
+                // Create adapter instance
+                BluetoothDeviceAdapter adapter = new BluetoothDeviceAdapter(deviceList.toArray(new BluetoothConnection[0]), new BluetoothDeviceAdapter.OnDeviceClickListener() {
+                    @Override
+                    public void onDeviceClick(BluetoothConnection device) {
+                        // Handle item click here if needed
+                    }
+                }, this);
+
+                // Set adapter to RecyclerView
+                recyclerView.setAdapter(adapter);
+            }
+        });
     }
+
+
+
+
 
     public void printBluetooth() {
         this.checkBluetoothPermissions(() -> {
             new AsyncBluetoothEscPosPrint(
-                this,
-                new AsyncEscPosPrint.OnPrintFinished() {
-                    @Override
-                    public void onError(AsyncEscPosPrinter asyncEscPosPrinter, int codeException) {
-                        Log.e("Async.OnPrintFinished", "AsyncEscPosPrint.OnPrintFinished : An error occurred !");
-                    }
+                    this,
+                    new AsyncEscPosPrint.OnPrintFinished() {
+                        @Override
+                        public void onError(AsyncEscPosPrinter asyncEscPosPrinter, int codeException) {
+                            Log.e("Async.OnPrintFinished", "AsyncEscPosPrint.OnPrintFinished : An error occurred !");
+                        }
 
-                    @Override
-                    public void onSuccess(AsyncEscPosPrinter asyncEscPosPrinter) {
-                        Log.i("Async.OnPrintFinished", "AsyncEscPosPrint.OnPrintFinished : Print is finished !");
+                        @Override
+                        public void onSuccess(AsyncEscPosPrinter asyncEscPosPrinter) {
+                            Log.i("Async.OnPrintFinished", "AsyncEscPosPrint.OnPrintFinished : Print is finished !");
+                        }
                     }
-                }
             )
-                .execute(this.getAsyncEscPosPrinter(selectedDevice));
+                    .execute(this.getAsyncEscPosPrinter(selectedDevice));
         });
     }
 
@@ -195,20 +237,20 @@ public class PrintActivity extends AppCompatActivity {
                     if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
                         if (usbManager != null && usbDevice != null) {
                             new AsyncUsbEscPosPrint(
-                                context,
-                                new AsyncEscPosPrint.OnPrintFinished() {
-                                    @Override
-                                    public void onError(AsyncEscPosPrinter asyncEscPosPrinter, int codeException) {
-                                        Log.e("Async.OnPrintFinished", "AsyncEscPosPrint.OnPrintFinished : An error occurred !");
-                                    }
+                                    context,
+                                    new AsyncEscPosPrint.OnPrintFinished() {
+                                        @Override
+                                        public void onError(AsyncEscPosPrinter asyncEscPosPrinter, int codeException) {
+                                            Log.e("Async.OnPrintFinished", "AsyncEscPosPrint.OnPrintFinished : An error occurred !");
+                                        }
 
-                                    @Override
-                                    public void onSuccess(AsyncEscPosPrinter asyncEscPosPrinter) {
-                                        Log.i("Async.OnPrintFinished", "AsyncEscPosPrint.OnPrintFinished : Print is finished !");
+                                        @Override
+                                        public void onSuccess(AsyncEscPosPrinter asyncEscPosPrinter) {
+                                            Log.i("Async.OnPrintFinished", "AsyncEscPosPrint.OnPrintFinished : Print is finished !");
+                                        }
                                     }
-                                }
                             )
-                                .execute(getAsyncEscPosPrinter(new UsbConnection(usbManager, usbDevice)));
+                                    .execute(getAsyncEscPosPrinter(new UsbConnection(usbManager, usbDevice)));
                         }
                     }
                 }
@@ -222,17 +264,17 @@ public class PrintActivity extends AppCompatActivity {
 
         if (usbConnection == null || usbManager == null) {
             new AlertDialog.Builder(this)
-                .setTitle("USB Connection")
-                .setMessage("No USB printer found.")
-                .show();
+                    .setTitle("USB Connection")
+                    .setMessage("No USB printer found.")
+                    .show();
             return;
         }
 
         PendingIntent permissionIntent = PendingIntent.getBroadcast(
-            this,
-            0,
-            new Intent(PrintActivity.ACTION_USB_PERMISSION),
-            android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S ? PendingIntent.FLAG_MUTABLE : 0
+                this,
+                0,
+                new Intent(PrintActivity.ACTION_USB_PERMISSION),
+                android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S ? PendingIntent.FLAG_MUTABLE : 0
         );
         IntentFilter filter = new IntentFilter(PrintActivity.ACTION_USB_PERMISSION);
         registerReceiver(this.usbReceiver, filter);

@@ -3,17 +3,25 @@ package com.billapp.adapter
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.billapp.R
+import com.billapp.database.DatabaseHelper
 import com.billapp.databinding.RowBillItemBinding
+import com.billapp.listener.DeleteDataListener
 import com.billapp.listener.DetailListener
+import com.billapp.listener.UpdateDataListener
 import com.billapp.model.Bill
 import java.text.DecimalFormat
 
@@ -22,8 +30,11 @@ class BillsAdapter(
     private val context: Context,
     private val activity: Activity,
     private val billsList: List<Bill>,
-    private val detailsClickListener: DetailListener
+    private val detailsClickListener: DetailListener,
+    private val deleteClickListener: DeleteDataListener,
+    private val updateClickListener: UpdateDataListener,
 ) : RecyclerView.Adapter<BillsAdapter.CategoryViewHolder>() {
+    private lateinit var dbHelper: DatabaseHelper
 
     inner class CategoryViewHolder(val binding: RowBillItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -36,23 +47,104 @@ class BillsAdapter(
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val currentItem = billsList[position]
 
+        dbHelper = DatabaseHelper(context)
+
         holder.binding.tvNumber.text = (position + 1).toString()
         holder.binding.tvQty.text = currentItem.quantity.toString()
         val df = DecimalFormat("#.##")
         val formattedNumber = df.format(currentItem.total)
-        holder.binding.tvTotal.text =formattedNumber
+        holder.binding.tvTotal.text = formattedNumber
 
         val formattedRate = df.format(currentItem.rate)
         holder.binding.tvRate.text = formattedRate
-      /*  holder.binding.tvDetails.setOnClickListener {
-            holder.binding.tvDetails.visibility = android.view.View.GONE
-            holder.binding.edtDetails.visibility = android.view.View.VISIBLE
-            holder.binding.edtDetails.requestFocus()
-            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(holder.binding.edtDetails, InputMethodManager.SHOW_IMPLICIT)
-        }*/
+
+        holder.binding.ivEdit.setOnClickListener {
+            val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_update_data, null)
+            val edtDetail = dialogView.findViewById<EditText>(R.id.edtDetail)
+            val edtQty = dialogView.findViewById<EditText>(R.id.edtQty)
+            val edtRate = dialogView.findViewById<EditText>(R.id.edtRate)
+            val tvCancel = dialogView.findViewById<TextView>(R.id.tvCancel)
+            val tvTotalU = dialogView.findViewById<TextView>(R.id.tvTotalU)
+            val btnDelete = dialogView.findViewById<TextView>(R.id.btnDelete)
+            val btnUpdate = dialogView.findViewById<TextView>(R.id.btnUpdate)
+
+            val currentItem = billsList[holder.adapterPosition] // Get the current item
+
+            val id = currentItem.id
+            val totalQuantity = currentItem.quantity.toInt()
+            val totalAmount = currentItem.total
+            val totalRate = currentItem.rate
+            val detail = currentItem.details
+
+            if (billsList.isNotEmpty()) {
+                val df = DecimalFormat("#.##")
+                val formattedTotalAmount = df.format(totalAmount)
+
+                tvTotalU.text = "Total: " + formattedTotalAmount
+                edtQty.setText(totalQuantity.toString())
+                edtRate.setText(totalRate.toString())
+                edtDetail.setText(detail)
+            } else {
+                edtQty.setText("")
+                edtRate.setText("")
+                edtDetail.setText("")
+                tvTotalU.text = ""
+            }
+
+            // TextWatcher to update total when quantity or rate changes
+            val textWatcher = object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+                override fun afterTextChanged(s: Editable?) {
+                    val updatedQty = edtQty.text.toString().toDoubleOrNull() ?: 0.0
+                    val updatedRate = edtRate.text.toString().toDoubleOrNull() ?: 0.0
+                    val total = updatedQty * updatedRate
+                    tvTotalU.text = "Total: " + DecimalFormat("#.##").format(total)
+                }
+            }
+
+            edtQty.addTextChangedListener(textWatcher)
+            edtRate.addTextChangedListener(textWatcher)
+
+            val dialog = AlertDialog.Builder(context)
+                .setView(dialogView)
+                .create()
+
+            tvCancel.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            btnDelete.setOnClickListener {
+                deleteClickListener.onDeleteDataClick(id)
+                dialog.dismiss()
+            }
+
+            btnUpdate.setOnClickListener() {
+                val updatedDetail = edtDetail.text.toString().trim()
+                val updatedQty = edtQty.text.toString().toDoubleOrNull() ?: 0.0
+                val updatedRate = edtRate.text.toString().toDoubleOrNull() ?: 0.0
+                val total = updatedQty * updatedRate
+
+                updateClickListener.onUpdateDataClick(
+                    id,
+                    updatedQty,
+                    updatedRate,
+                    updatedDetail,
+                    total
+                )
+
+                // Dismiss the dialog after updating
+                dialog.dismiss()
+            }
+            dialog.show()
+        }
+
+
         holder.binding.tvDetails.setOnClickListener {
-            val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_edit_details, null)
+            val dialogView =
+                LayoutInflater.from(context).inflate(R.layout.dialog_edit_details, null)
             val dialogEditText = dialogView.findViewById<EditText>(R.id.dialog_edtDetails)
 
             val dialog = AlertDialog.Builder(context)

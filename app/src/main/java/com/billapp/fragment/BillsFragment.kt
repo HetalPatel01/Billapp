@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatButton
@@ -19,15 +18,16 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.billapp.R
 import com.billapp.activity.PrintActivity
-import com.billapp.activity.QuickBillPrinterActivity
 import com.billapp.adapter.BillsAdapter
 import com.billapp.database.DatabaseHelper
 import com.billapp.databinding.FragmentBillsBinding
+import com.billapp.listener.DeleteDataListener
 import com.billapp.listener.DetailListener
+import com.billapp.listener.UpdateDataListener
 import com.billapp.model.Bill
 import java.text.DecimalFormat
 
-class BillsFragment : Fragment(), DetailListener {
+class BillsFragment : Fragment(), DetailListener, DeleteDataListener, UpdateDataListener {
 
     private lateinit var binding: FragmentBillsBinding
     private lateinit var dbHelper: DatabaseHelper
@@ -216,7 +216,7 @@ class BillsFragment : Fragment(), DetailListener {
             binding.tvFQty.text = ""
         }
 
-        val adapter = BillsAdapter(requireContext(), requireActivity(), billsList, this)
+        val adapter = BillsAdapter(requireContext(), requireActivity(), billsList, this, this, this)
         binding.rvBillItems.layoutManager = LinearLayoutManager(requireContext())
         binding.rvBillItems.adapter = adapter
     }
@@ -263,5 +263,21 @@ class BillsFragment : Fragment(), DetailListener {
             view = View(activity)
         }
         imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    override fun onDeleteDataClick(billId: Int) {
+        dbHelper.deleteBill(billId)
+        showBillsList()
+    }
+
+    override fun onUpdateDataClick(
+        billId: Int,
+        qty: Double,
+        rate: Double,
+        detail: String,
+        total: Double
+    ) {
+        dbHelper.updateBillDetails(billId, detail, qty, rate, total)
+        showBillsList()
     }
 }

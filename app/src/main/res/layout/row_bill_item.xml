@@ -8,12 +8,12 @@
 
         <LinearLayout
             android:id="@+id/llLable"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvNumber"
@@ -27,37 +27,46 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:padding="@dimen/_5sdp"
+                android:id="@+id/ivEdit"
+                android:src="@drawable/ic_edit" />
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/tvDetails"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:padding="@dimen/_5sdp"
                 android:gravity="center"
+                android:padding="@dimen/_5sdp"
                 android:src="@drawable/ic_add"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
+
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edtDetails"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:visibility="gone"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:singleLine="true"
-                android:hint="Details"
                 android:background="@drawable/white_round_bg"
+                android:gravity="center"
+                android:hint="Details"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:src="@drawable/ic_add"
                 android:textAlignment="center"
-                android:imeOptions="actionDone"
                 android:textColor="@color/black"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvQty"
@@ -85,9 +94,6 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTotal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -97,7 +103,10 @@
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

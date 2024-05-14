@@ -6,70 +6,79 @@
     tools:context=".activity.PrintActivity">
 
     <RelativeLayout
-        android:background="@color/primary"
+        android:id="@+id/rlTop"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp">
+        android:layout_height="@dimen/_40sdp"
+        android:background="@color/yellow">
 
         <ImageView
-            android:padding="@dimen/_50sdp"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_40sdp"/>
-
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:src="@drawable/ic_back"
+            android:tint="@color/white" />
 
 
     </RelativeLayout>
 
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvBluetoothList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rlTop" />
 
     <LinearLayout
-        android:layout_marginTop="@dimen/_40sdp"
         android:id="@+id/llButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/_40sdp"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
-            android:textColor="@color/black"
-            android:layout_marginTop="@dimen/_10sdp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select option to print !" />
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="Select option to print !"
+            android:textColor="@color/black" />
 
         <Button
-            android:layout_marginHorizontal="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_20sdp"
             android:id="@+id/button_bluetooth_browse"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_42sdp"
-            android:textSize="12sp"
-            android:padding="@dimen/_5sdp"
-            android:layout_marginRight="5dp"
+            android:layout_marginHorizontal="@dimen/_20sdp"
             android:layout_marginLeft="5dp"
-            android:text="Default printer"/>
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginRight="5dp"
+            android:padding="@dimen/_5sdp"
+            android:text="Default printer"
+            android:textSize="12sp" />
 
         <Button
-            android:layout_marginHorizontal="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_20sdp"
             android:id="@+id/button_bluetooth"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_42sdp"
-            android:textSize="12sp"
-            android:layout_marginRight="5dp"
-            android:padding="@dimen/_5sdp"
-            android:text="Print by bluetooth !" />
-
-        <Button
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginRight="5dp"
+            android:padding="@dimen/_5sdp"
+            android:text="Print by bluetooth !"
+            android:textSize="12sp" />
+
+        <Button
             android:id="@+id/button_usb"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_42sdp"
-            android:textSize="12sp"
-            android:padding="@dimen/_5sdp"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginRight="5dp"
-            android:text="Print by USB !" />
+            android:padding="@dimen/_5sdp"
+            android:text="Print by USB !"
+            android:textSize="12sp" />
     </LinearLayout>
 
 </RelativeLayout>
