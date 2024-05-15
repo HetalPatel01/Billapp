@@ -1,0 +1,63 @@
+
+™
+java:S1192Í"VDefine a constant instead of duplicating this literal "Async.OnPrintFinished" 4 times.(¨†œN8ÅâÄè÷1J$271e1ae8-5111-4936-881e-41e433d0c6dc
+x
+java:S1066”"/Merge this if statement with the enclosing one.(Œöûÿÿÿÿ8ÊâÄè÷1J$5033498b-984e-42c4-89f5-daa4b3ecd2d7
+s
+java:S1066§"/Merge this if statement with the enclosing one.(İ°îˆ8Ü€İè÷1J$73d9b035-6d73-466a-8d58-fd1a04ea4d59
+x
+java:S1066°"/Merge this if statement with the enclosing one.(×Ï€Ëúÿÿÿÿ8Ü€İè÷1J$6821eb7c-8e4f-4ef9-bf64-1802839ef497
+s
+java:S1066ç"/Merge this if statement with the enclosing one.(ıªÈü8ßéàè÷1J$2fc58d02-6af2-49ce-9063-35dcdc09e580
+p
+java:S1604U"(Make this anonymous inner class a lambda(º©±­ûÿÿÿÿ8ĞâÄè÷1J$e6f73f70-8478-4030-9616-dd6df2d247a4
+p
+java:S1604l"(Make this anonymous inner class a lambda(îñ‘·øÿÿÿÿ8÷şËè÷1J$e8798939-bf4c-4326-9b0b-6981f05e3daf
+k
+java:S1604g"(Make this anonymous inner class a lambda(êîèà8øşËè÷1J$dcf2e9cf-6aa2-4e40-a4b5-8615beb602e1
+­
+java:S1104Ì"iMake onBluetoothPermissionsGranted a static final constant or non-public and provide accessors if needed.(Ğ¿¼£8ÔâÄè÷1J$93dc6408-b682-4121-a4bb-3d551779386a
+™
+java:S1450C"QRemove the "sw" field and declare it as a local variable in the relevant methods.(ùËéëøÿÿÿÿ8²ãÄè÷1J$31c9b306-8cb8-4060-a74d-b1aec210c059
+~	java:S125O"<This block of commented-out lines of code should be removed.(Ê‚è˜8ÅãÄè÷1J$577ee647-2d5d-43d3-a3a1-402d81d4f87f
+„
+java:S1874]"<Remove this use of "getSerializableExtra"; it is deprecated.(²›Üèüÿÿÿÿ8ËãÄè÷1J$4dbdc0a6-266c-4012-835f-efa02fbe9e93
+|
+java:S1874c"9Remove this use of "getDefaultAdapter"; it is deprecated.(•”¢8Ó›Ìè÷1J$4dd2cddf-5673-4ae1-bdba-35d1e3c879be
+o
+java:S1125d"'Remove the unnecessary boolean literal.(’ª“åúÿÿÿÿ8€Ìè÷1J$923cbf3b-7982-49ed-96c3-1cc336098764
+}
+java:S1874’"9Remove this use of "getDefaultAdapter"; it is deprecated.(•”¢8¸İè÷1J$50c28d20-161e-4801-9a76-8578fbfd5550
+ 
+java:S3252—"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(î’Ø¼ıÿÿÿÿ8¿İè÷1J$69a2e988-aea0-4f15-b74f-1f7bea651434
+‡
+java:S1874">Remove this use of "startActivityForResult"; it is deprecated.(øÜâ€ùÿÿÿÿ8í‘ãè÷1J$7744541a-12f3-4292-adf7-ae124072818c
+
+java:S1874£"JDon't override a deprecated method or explicitly mark it as "@Deprecated".(ŸŒ¹Ñ8·êàè÷1J$b0598705-d853-4eb4-8252-1eb20cc969fb
+}
+java:S1874®"9Remove this use of "getDefaultAdapter"; it is deprecated.(•”¢8Àİè÷1J$e519703e-c0d2-45fb-8c77-c3a64f7cec1a
+ 
+java:S3252²"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(î’Ø¼ıÿÿÿÿ8Áİè÷1J$ae9ac460-9507-40c4-a888-024a4a684f5d
+x
+java:S1874¹"/Remove this use of "disable"; it is deprecated.(ıçá†ùÿÿÿÿ8Áİè÷1J$4bf92574-3d66-44db-accf-5080ff204604
+“
+java:S1874Ï"JDon't override a deprecated method or explicitly mark it as "@Deprecated".(Ó»×¶şÿÿÿÿ8ĞãÄè÷1J$d6d60f00-9807-49fa-9507-8f318bf68a3a
+j	java:S131Ò""Add a default case to this switch.(×ö³–úÿÿÿÿ8ÓãÄè÷1J$c12960c5-f77e-4e82-8806-aee47853a261
+~	java:S125û"<This block of commented-out lines of code should be removed.(Ğè®w8ÙãÄè÷1J$ed20ffef-cffd-4a95-9d61-928e18ae1d96
+p
+java:S1602Ç",Remove useless curly braces around statement(ÒŠ„8ããÄè÷1J$2676d5b9-53dd-4c90-9661-ec86a871daea
+x
+java:S1874Ö"/Remove this use of "execute"; it is deprecated.(¦‡äÅÿÿÿÿÿ8æãÄè÷1J$e9b31a93-3845-4475-aadf-92b96fc16d34
+~
+java:S1874å":Remove this use of "getParcelableExtra"; it is deprecated.(œ…Ô­8éãÄè÷1J$c36e9b98-5ee1-4b41-9e50-3f628156ba84
+x
+java:S1874ö"/Remove this use of "execute"; it is deprecated.(ã½Ÿøÿÿÿÿ8îãÄè÷1J$150e959c-3bb0-4bc7-b681-0bd3772cb0fc
+ƒ
+java:S1854Å":Remove this useless assignment to local variable "format".(ÏÊ‹Äıÿÿÿÿ8øãÄè÷1J$a7fc0595-9f34-4410-b8ae-17d0119f6c30
+€
+java:S1854à"7Remove this useless assignment to local variable "tax".(à¹µîıÿÿÿÿ8øãÄè÷1J$112325fb-bcbe-4776-8e5f-4cd6e4177243
+„	java:S125™"<This block of commented-out lines of code should be removed.(ìÈ¶‰øÿÿÿÿ8ùãÄè÷1J$8628c2d9-c585-401f-9d3e-997130814ff1
+t
+java:S1481Å"+Remove this unused "format" local variable.(ÏÊ‹Äıÿÿÿÿ8üãÄè÷1J$7989da33-6910-4a4e-979b-6be7483e9280
+q
+java:S1481à"(Remove this unused "tax" local variable.(à¹µîıÿÿÿÿ8äÄè÷1J$2fdc17ea-ead9-4852-b48f-be55c201d4fd
