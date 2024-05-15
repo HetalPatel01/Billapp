@@ -16,8 +16,10 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,6 +56,7 @@ public class PrintActivity extends AppCompatActivity {
     ArrayList<Bill> billsList = new ArrayList<>();
     private BluetoothDeviceAdapter adapter;
     private  RecyclerView rvBluetoothList;
+    private Switch sw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,7 @@ public class PrintActivity extends AppCompatActivity {
         button.setOnClickListener(view -> printTcp());*/
         ImageView ivBack = (ImageView) this.findViewById(R.id.ivBack);
         rvBluetoothList = (RecyclerView) this.findViewById(R.id.rvBluetoothList);
+        sw = (Switch) this.findViewById(R.id.sw);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +87,23 @@ public class PrintActivity extends AppCompatActivity {
             Log.e("Intent Error", "No intent received");
         }
 
+        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // Switch activated, check Bluetooth permissions and enable Bluetooth
+                    checkBluetoothPermissions(new OnBluetoothPermissionsGranted() {
+                        @Override
+                        public void onPermissionsGranted() {
+                            browseBluetoothDevice();
+                        }
+                    });
+                } else {
+                    // Switch deactivated, disable Bluetooth
+                    //disableBluetooth();
+                }
+            }
+        });
 
     }
 

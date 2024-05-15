@@ -1,6 +1,7 @@
 package com.billapp.adapter;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
@@ -34,19 +35,10 @@ public class BluetoothDeviceAdapter extends RecyclerView.Adapter<BluetoothDevice
         return new DeviceViewHolder(view);
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onBindViewHolder(@NonNull DeviceViewHolder holder, int position) {
         BluetoothConnection device = devices[position];
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
         holder.deviceName.setText(device.getDevice().getName());
         holder.itemView.setOnClickListener(v -> listener.onDeviceClick(device));
     }
