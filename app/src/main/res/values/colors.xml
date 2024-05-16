@@ -4,7 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grayBg">#C9FFFFFF</color>
     <color name="primary">#2196F3</color>
-    <color name="primaryDark">#08406C</color>
+    <color name="primaryDark">#FF9800</color>
+    <color name="primaryDark1">#08406C</color>
     <color name="yellow">#FF9800</color>
     <color name="gray">#807E7E</color>
     <color name="bg">#aebac1</color>

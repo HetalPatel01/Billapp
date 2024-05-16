@@ -3,6 +3,7 @@
     <style name="Base.Theme.Billapp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
          <item name="colorPrimary">@color/primaryDark</item>
+        <item name="fontFamily">@font/poppins_semibold</item>
     </style>
 
     <style name="Theme.Billapp" parent="Base.Theme.Billapp" />
