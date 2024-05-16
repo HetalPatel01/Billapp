@@ -10,16 +10,36 @@
         android:id="@+id/rlTop"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
-        android:background="@color/yellow">
+        android:background="@color/yellow"
+        tools:ignore="UseSwitchCompatOrMaterialXml">
 
         <ImageView
+            android:padding="@dimen/_5sdp"
             android:id="@+id/ivBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/_5sdp"
             android:src="@drawable/ic_back"
-            android:tint="@color/white" />
+            app:tint="@color/white" />
+
+        <TextView
+            android:layout_toEndOf="@+id/ivBack"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@color/white"
+            android:text="Bluetooth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/switchbuttontext"
+            android:layout_toStartOf="@+id/sw"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <Switch
             android:id="@+id/sw"
@@ -32,6 +52,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+
 
     </RelativeLayout>
 

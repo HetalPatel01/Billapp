@@ -20,6 +20,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -58,6 +59,8 @@ public class PrintActivity extends AppCompatActivity {
     private  RecyclerView rvBluetoothList;
     private Switch sw;
 
+    private TextView switchbuttontext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +76,7 @@ public class PrintActivity extends AppCompatActivity {
         ImageView ivBack = (ImageView) this.findViewById(R.id.ivBack);
         rvBluetoothList = (RecyclerView) this.findViewById(R.id.rvBluetoothList);
         sw = (Switch) this.findViewById(R.id.sw);
+        switchbuttontext =  this.findViewById(R.id.switchbuttontext);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +95,7 @@ public class PrintActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    // Switch activated, check Bluetooth permissions and enable Bluetooth
+                    switchbuttontext.setText("ON");
                     checkBluetoothPermissions(new OnBluetoothPermissionsGranted() {
                         @Override
                         public void onPermissionsGranted() {
@@ -99,8 +103,7 @@ public class PrintActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    // Switch deactivated, disable Bluetooth
-                    //disableBluetooth();
+                    switchbuttontext.setText("OFF");
                 }
             }
         });
