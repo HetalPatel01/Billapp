@@ -1,9 +1,9 @@
-package com.billapp.activity;
+package com.quickgstbillprint.activity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,15 +12,14 @@ import android.content.pm.PackageManager;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,37 +28,36 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.billapp.R;
-import com.billapp.activity.async.AsyncBluetoothEscPosPrint;
-import com.billapp.activity.async.AsyncEscPosPrint;
-import com.billapp.activity.async.AsyncEscPosPrinter;
-import com.billapp.activity.async.AsyncTcpEscPosPrint;
-import com.billapp.activity.async.AsyncUsbEscPosPrint;
-import com.billapp.adapter.BluetoothDeviceAdapter;
-import com.billapp.model.Bill;
+import com.quickgstbillprint.R;
+import com.quickgstbillprint.activity.async.AsyncBluetoothEscPosPrint;
+import com.quickgstbillprint.activity.async.AsyncEscPosPrint;
+import com.quickgstbillprint.activity.async.AsyncEscPosPrinter;
+import com.quickgstbillprint.activity.async.AsyncUsbEscPosPrint;
+import com.quickgstbillprint.adapter.BluetoothDeviceAdapter;
+import com.quickgstbillprint.model.Bill;
 import com.dantsu.escposprinter.connection.DeviceConnection;
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothConnection;
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections;
-import com.dantsu.escposprinter.connection.tcp.TcpConnection;
 import com.dantsu.escposprinter.connection.usb.UsbConnection;
 import com.dantsu.escposprinter.connection.usb.UsbPrintersConnections;
-import com.dantsu.escposprinter.textparser.PrinterTextParserImg;
 
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 public class PrintActivity extends AppCompatActivity {
 
     ArrayList<Bill> billsList = new ArrayList<>();
     private BluetoothDeviceAdapter adapter;
-    private  RecyclerView rvBluetoothList;
+    private RecyclerView rvBluetoothList;
     private Switch sw;
+    private static final int REQUEST_ENABLE_BT = 1;
+    private static final int REQUEST_DISCOVER_BT = 2;
 
     private TextView switchbuttontext;
+    private BluetoothAdapter bluetoothAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +74,7 @@ public class PrintActivity extends AppCompatActivity {
         ImageView ivBack = (ImageView) this.findViewById(R.id.ivBack);
         rvBluetoothList = (RecyclerView) this.findViewById(R.id.rvBluetoothList);
         sw = (Switch) this.findViewById(R.id.sw);
-        switchbuttontext =  this.findViewById(R.id.switchbuttontext);
+        switchbuttontext = this.findViewById(R.id.switchbuttontext);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,29 +89,55 @@ public class PrintActivity extends AppCompatActivity {
             Log.e("Intent Error", "No intent received");
         }
 
+        bluetoothAdapter= BluetoothAdapter.getDefaultAdapter();
+
+
+        if (bluetoothAdapter != null && bluetoothAdapter.isEnabled()) {
+            sw.setChecked(true);
+            switchbuttontext.setText("ON");
+        } else {
+            sw.setChecked(false);
+            switchbuttontext.setText("OFF");
+        }
+
+        if (bluetoothAdapter == null) {
+            Toast.makeText(this, "Bluetooth is not supported on this device", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+                    if (ActivityCompat.checkSelfPermission(PrintActivity.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+                    adapter.enable();
                     switchbuttontext.setText("ON");
-                    checkBluetoothPermissions(new OnBluetoothPermissionsGranted() {
-                        @Override
-                        public void onPermissionsGranted() {
-                            browseBluetoothDevice();
-                        }
-                    });
                 } else {
-                    switchbuttontext.setText("OFF");
+                    BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+                    if (ActivityCompat.checkSelfPermission(PrintActivity.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+                    adapter.disable();
                 }
             }
         });
+    }
 
+    private void enableBluetooth() {
+        if (!bluetoothAdapter.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        }
     }
 
 
-    /*==============================================================================================
-    ======================================BLUETOOTH PART============================================
-    ==============================================================================================*/
+    /*======================================BLUETOOTH PART============================================*/
 
     public interface OnBluetoothPermissionsGranted {
         void onPermissionsGranted();
@@ -155,6 +179,10 @@ public class PrintActivity extends AppCompatActivity {
             this.onBluetoothPermissionsGranted.onPermissionsGranted();
         }
     }
+
+
+
+
 
     private BluetoothConnection selectedDevice;
 
@@ -388,5 +416,6 @@ public class PrintActivity extends AppCompatActivity {
 
         return printer.addTextToPrint(billText.toString());
     }
+
 
 }

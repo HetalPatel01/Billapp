@@ -1,4 +1,4 @@
-package com.billapp.activity.async;
+package com.quickgstbillprint.activity.async;
 
 import com.dantsu.escposprinter.EscPosPrinterSize;
 import com.dantsu.escposprinter.connection.DeviceConnection;

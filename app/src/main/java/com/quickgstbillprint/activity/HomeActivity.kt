@@ -1,13 +1,13 @@
-package com.billapp.activity
+package com.quickgstbillprint.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.billapp.R
-import com.billapp.databinding.ActivityHomeBinding
-import com.billapp.fragment.BillsFragment
-import com.billapp.fragment.HomeFragment
+import com.quickgstbillprint.R
+import com.quickgstbillprint.databinding.ActivityHomeBinding
+import com.quickgstbillprint.fragment.BillsFragment
+import com.quickgstbillprint.fragment.HomeFragment
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding

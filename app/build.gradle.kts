@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.billapp"
+    namespace = "com.quickgstbillprint"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.billapp"
+        applicationId = "com.quickgstbillprint"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

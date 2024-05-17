@@ -1,4 +1,4 @@
-package com.billapp.model
+package com.quickgstbillprint.model
 
 import java.io.Serializable
 

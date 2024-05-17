@@ -9,11 +9,12 @@
     <RelativeLayout
         android:id="@+id/rlTop"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_height="@dimen/_45sdp"
         android:background="@color/yellow"
         tools:ignore="UseSwitchCompatOrMaterialXml">
 
         <ImageView
+            android:layout_marginStart="@dimen/_5sdp"
             android:padding="@dimen/_5sdp"
             android:id="@+id/ivBack"
             android:layout_width="@dimen/_35sdp"
@@ -74,6 +75,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
@@ -104,6 +106,7 @@
             android:textSize="12sp" />
 
         <Button
+            android:visibility="gone"
             android:id="@+id/button_usb"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_42sdp"

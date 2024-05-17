@@ -1,4 +1,4 @@
-package com.billapp.fragment
+package com.quickgstbillprint.fragment
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -16,15 +16,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.billapp.R
-import com.billapp.activity.PrintActivity
-import com.billapp.adapter.BillsAdapter
-import com.billapp.database.DatabaseHelper
-import com.billapp.databinding.FragmentBillsBinding
-import com.billapp.listener.DeleteDataListener
-import com.billapp.listener.DetailListener
-import com.billapp.listener.UpdateDataListener
-import com.billapp.model.Bill
+import com.quickgstbillprint.R
+import com.quickgstbillprint.activity.PrintActivity
+import com.quickgstbillprint.adapter.BillsAdapter
+import com.quickgstbillprint.database.DatabaseHelper
+import com.quickgstbillprint.databinding.FragmentBillsBinding
+import com.quickgstbillprint.listener.DeleteDataListener
+import com.quickgstbillprint.listener.DetailListener
+import com.quickgstbillprint.listener.UpdateDataListener
+import com.quickgstbillprint.model.Bill
 import java.text.DecimalFormat
 
 class BillsFragment : Fragment(), DetailListener, DeleteDataListener, UpdateDataListener {

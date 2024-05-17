@@ -1,19 +1,14 @@
-package com.billapp.fragment
+package com.quickgstbillprint.fragment
 
 import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.widget.AppCompatTextView
-import com.billapp.R
+import com.quickgstbillprint.R
 
 class HomeFragment : Fragment() {
     private lateinit var fragmentContext: Context

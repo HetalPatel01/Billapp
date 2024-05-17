@@ -1,4 +1,4 @@
-package com.billapp
+package com.quickgstbillprint
 
 import org.junit.Test
 

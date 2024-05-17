@@ -1,19 +1,16 @@
-package com.billapp.adapter;
+package com.quickgstbillprint.adapter;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.billapp.R;
+import com.quickgstbillprint.R;
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothConnection;
 
 public class BluetoothDeviceAdapter extends RecyclerView.Adapter<BluetoothDeviceAdapter.DeviceViewHolder> {

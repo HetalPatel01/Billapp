@@ -1,10 +1,10 @@
-package com.billapp.activity
+package com.quickgstbillprint.activity
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
-import com.billapp.R
+import com.quickgstbillprint.R
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

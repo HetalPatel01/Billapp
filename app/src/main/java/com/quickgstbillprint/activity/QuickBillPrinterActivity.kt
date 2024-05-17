@@ -1,4 +1,4 @@
-package com.billapp.activity
+package com.quickgstbillprint.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -16,12 +16,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import com.billapp.R
-import com.billapp.activity.async.AsyncBluetoothEscPosPrint
-import com.billapp.activity.async.AsyncEscPosPrint
-import com.billapp.activity.async.AsyncEscPosPrinter
-import com.billapp.databinding.ActivityQuickBillPrinterBinding
-import com.billapp.model.Bill
+import com.quickgstbillprint.R
+import com.quickgstbillprint.activity.async.AsyncBluetoothEscPosPrint
+import com.quickgstbillprint.activity.async.AsyncEscPosPrint
+import com.quickgstbillprint.activity.async.AsyncEscPosPrinter
+import com.quickgstbillprint.databinding.ActivityQuickBillPrinterBinding
+import com.quickgstbillprint.model.Bill
 import com.dantsu.escposprinter.connection.DeviceConnection
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothConnection
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections

@@ -1,4 +1,4 @@
-package com.billapp.adapter
+package com.quickgstbillprint.adapter
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -11,18 +11,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
-import com.billapp.R
-import com.billapp.database.DatabaseHelper
-import com.billapp.databinding.RowBillItemBinding
-import com.billapp.listener.DeleteDataListener
-import com.billapp.listener.DetailListener
-import com.billapp.listener.UpdateDataListener
-import com.billapp.model.Bill
+import com.quickgstbillprint.R
+import com.quickgstbillprint.database.DatabaseHelper
+import com.quickgstbillprint.databinding.RowBillItemBinding
+import com.quickgstbillprint.listener.DeleteDataListener
+import com.quickgstbillprint.listener.DetailListener
+import com.quickgstbillprint.listener.UpdateDataListener
+import com.quickgstbillprint.model.Bill
 import java.text.DecimalFormat
 
 
