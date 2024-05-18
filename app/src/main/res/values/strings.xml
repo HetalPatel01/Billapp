@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Billapp</string>
+    <string name="app_name">Invoice Printer</string>
     <string name="exitapp">Are you sure want to exit app?</string>
     <string name="deletedb">Are you sure want to delete data?</string>
     <!-- TODO: Remove or change this placeholder text -->

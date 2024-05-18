@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "BilllApp"
+rootProject.name = "Quick Bill Print"
 include(":app")
 include(":escposprinter")
