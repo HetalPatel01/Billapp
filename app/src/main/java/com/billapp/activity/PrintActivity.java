@@ -2,8 +2,10 @@ package com.billapp.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -52,10 +54,16 @@ import java.util.Date;
 import java.util.List;
 
 public class PrintActivity extends AppCompatActivity {
-
     ArrayList<Bill> billsList = new ArrayList<>();
-    private BluetoothDeviceAdapter adapter;
+    private List<BluetoothConnection> pairedDevicesList = new ArrayList<>();
+    private List<BluetoothConnection> availableDevicesList = new ArrayList<>();
+    private BluetoothDeviceAdapter pairedAdapter;
+    private BluetoothDeviceAdapter availableAdapter;
     private  RecyclerView rvBluetoothList;
+    private  RecyclerView rvNPBluetoothList;
+    private static final int REQUEST_BLUETOOTH_PERMISSION = 1;
+    private static final int REQUEST_ENABLE_BT = 2;
+
     private Switch sw;
 
     @Override
@@ -72,6 +80,7 @@ public class PrintActivity extends AppCompatActivity {
         button.setOnClickListener(view -> printTcp());*/
         ImageView ivBack = (ImageView) this.findViewById(R.id.ivBack);
         rvBluetoothList = (RecyclerView) this.findViewById(R.id.rvBluetoothList);
+        rvNPBluetoothList = (RecyclerView) this.findViewById(R.id.rvNPBluetoothList);
         sw = (Switch) this.findViewById(R.id.sw);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,12 +96,16 @@ public class PrintActivity extends AppCompatActivity {
             Log.e("Intent Error", "No intent received");
         }
 
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        boolean isBluetoothEnabled = bluetoothAdapter != null ? bluetoothAdapter.isEnabled() : false;
+        sw.setChecked(isBluetoothEnabled);
+
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     // Switch activated, check Bluetooth permissions and enable Bluetooth
-                    checkBluetoothPermissions(new OnBluetoothPermissionsGranted() {
+                    checkBluetoothPermissionsAndEnable(new OnBluetoothPermissionsGranted() {
                         @Override
                         public void onPermissionsGranted() {
                             browseBluetoothDevice();
@@ -100,11 +113,78 @@ public class PrintActivity extends AppCompatActivity {
                     });
                 } else {
                     // Switch deactivated, disable Bluetooth
-                    //disableBluetooth();
+                    disableBluetooth();
                 }
             }
         });
 
+// If Bluetooth is already enabled, browse for devices
+        if (isBluetoothEnabled) {
+            browseBluetoothDevice();
+        }
+
+
+    }
+    private void checkBluetoothPermissionsAndEnable(OnBluetoothPermissionsGranted onBluetoothPermissionsGranted) {
+        this.onBluetoothPermissionsGranted = onBluetoothPermissionsGranted;
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.BLUETOOTH_CONNECT
+        ) != PackageManager.PERMISSION_GRANTED) {
+            // Permission not granted, request it
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{Manifest.permission.BLUETOOTH_CONNECT},
+                    REQUEST_BLUETOOTH_PERMISSION
+            );
+        } else {
+            // Permission granted, callback
+            onBluetoothPermissionsGranted.onPermissionsGranted();
+        }
+    }
+    private void enableBluetooth() {
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (bluetoothAdapter != null) {
+            if (!bluetoothAdapter.isEnabled()) {
+                // Bluetooth is not enabled, prompt user to enable it
+                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.BLUETOOTH_CONNECT
+                ) != PackageManager.PERMISSION_GRANTED) {
+                    // Handle missing permissions
+                    return;
+                }
+                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+            }
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_ENABLE_BT) {
+            if (resultCode == Activity.RESULT_CANCELED) {
+                // User did not enable Bluetooth, you can inform the user or take other actions
+            }
+        }
+    }
+
+    private void disableBluetooth() {
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (bluetoothAdapter != null) {
+            if (bluetoothAdapter.isEnabled()) {
+                // Bluetooth is enabled, disable it
+                if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.BLUETOOTH_CONNECT
+                ) != PackageManager.PERMISSION_GRANTED) {
+                    // Handle missing permissions
+                    return;
+                }
+                bluetoothAdapter.disable();
+            }
+        }
     }
 
 
@@ -136,6 +216,19 @@ public class PrintActivity extends AppCompatActivity {
                     break;
             }
         }
+        if (requestCode == REQUEST_BLUETOOTH_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, enable Bluetooth
+                enableBluetooth();
+                if (onBluetoothPermissionsGranted != null) {
+                    onBluetoothPermissionsGranted.onPermissionsGranted();
+                }
+            } else {
+                // Permission denied, handle accordingly
+                // You can show a message to the user or take other actions
+            }
+        }
+
     }
 
     public void checkBluetoothPermissions(OnBluetoothPermissionsGranted onBluetoothPermissionsGranted) {
@@ -199,22 +292,29 @@ public class PrintActivity extends AppCompatActivity {
 
             if (bluetoothDevicesList != null) {
                 // Initialize RecyclerView
-                RecyclerView recyclerView = findViewById(R.id.rvBluetoothList);
-                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                BluetoothConnection[] pairedDevicesArray = (new BluetoothPrintersConnections()).getList();
+                BluetoothConnection[] availableDevicesArray = (new BluetoothPrintersConnections()).getList();
 
-                // Convert array to a List if needed
-                List<BluetoothConnection> deviceList = Arrays.asList(bluetoothDevicesList);
+                // Add devices to their respective lists
+                pairedDevicesList.addAll(Arrays.asList(pairedDevicesArray));
+                availableDevicesList.addAll(Arrays.asList(availableDevicesArray));
 
-                // Create adapter instance
-                BluetoothDeviceAdapter adapter = new BluetoothDeviceAdapter(deviceList.toArray(new BluetoothConnection[0]), new BluetoothDeviceAdapter.OnDeviceClickListener() {
-                    @Override
-                    public void onDeviceClick(BluetoothConnection device) {
-                        // Handle item click here if needed
-                    }
-                }, this);
+                // Set up adapters
+                pairedAdapter = new BluetoothDeviceAdapter(pairedDevicesList, device -> {
+                    // Handle click on paired device
+                }, this, true);
+                availableAdapter = new BluetoothDeviceAdapter(availableDevicesList, device -> {
+                    // Handle click on available device
+                }, this, false);
 
-                // Set adapter to RecyclerView
-                recyclerView.setAdapter(adapter);
+                // Set adapters to RecyclerViews
+                rvBluetoothList.setAdapter(pairedAdapter);
+                rvNPBluetoothList.setAdapter(availableAdapter);
+
+                // Set layout managers
+                rvBluetoothList.setLayoutManager(new LinearLayoutManager(this));
+                rvNPBluetoothList.setLayoutManager(new LinearLayoutManager(this));
+
             }
         });
     }

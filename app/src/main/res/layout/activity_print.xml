@@ -35,12 +35,39 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/tvPaired"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rlTop"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:text="Paired Device"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvBluetoothList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rlTop" />
-
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_below="@id/tvPaired" />
+    <TextView
+        android:id="@+id/tvNotPaired"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rvBluetoothList"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:text="Available Device"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvNPBluetoothList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_below="@id/tvNotPaired" />
     <LinearLayout
         android:id="@+id/llButtons"
         android:layout_width="match_parent"
@@ -55,6 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
+            android:visibility="gone"
             android:text="Select option to print !"
             android:textColor="@color/black" />
 
@@ -64,7 +92,7 @@
             android:layout_height="@dimen/_42sdp"
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginRight="5dp"
             android:padding="@dimen/_5sdp"
             android:text="Default printer"
@@ -75,7 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_42sdp"
             android:layout_marginHorizontal="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginRight="5dp"
             android:padding="@dimen/_5sdp"
             android:text="Print by bluetooth !"
@@ -86,7 +114,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_42sdp"
             android:layout_marginHorizontal="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginRight="5dp"
             android:padding="@dimen/_5sdp"
             android:text="Print by USB !"

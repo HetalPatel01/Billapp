@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.billapp.R
 import com.billapp.activity.PrintActivity
+import com.billapp.activity.PrintNewActivity
 import com.billapp.adapter.BillsAdapter
 import com.billapp.database.DatabaseHelper
 import com.billapp.databinding.FragmentBillsBinding
